@@ -1,0 +1,7 @@
+#to move to the different pages
+//div[@class="ui_columns"]/ul[@class="lst ui_column is-4"]/li[@class="item"]/a/@href
+#to move to different urls on the city hotel list
+//div[@class="listing_title"]/a/@href
+#next page link
+//a[@class="nav next taLnk ui_button primary"]/@href
+
