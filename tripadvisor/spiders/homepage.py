@@ -4,7 +4,7 @@ import scrapy
 
 class HomepageSpider(scrapy.Spider):
     name = 'homepage'
-    allowed_domains = ['https://www.tripadvisor.in/']
+    #allowed_domains = ['https://www.tripadvisor.in/']
     start_urls = ['https://www.tripadvisor.in/']
     
     def __init__(self):
@@ -17,7 +17,8 @@ class HomepageSpider(scrapy.Spider):
         file.close()
         
     def hotelsHtml(self,response):
-        file_name = "city"+str(self.city_no)+"hotel"+str(self.hotel_no)+'.html'
+        file_name = response.url.split("https://www.tripadvisor.in/")[1]
+        #file_name = "city"+str(self.city_no)+"hotel"+str(self.hotel_no)+'.html'
         self.saveFiles(file_name,response.text)
         
     def moveCity(self,response):
@@ -28,9 +29,8 @@ class HomepageSpider(scrapy.Spider):
             
     
     def parse(self, response):
-        all_hotels_in_cities = response.xpath('//div[@class="ui_columns"]/ul[@class="lst ui_column is-4"]/li[@class="item"]/a/@href')
+        all_hotels_in_cities = response.xpath('//div[@class="ui_columns"]/ul[@class="lst ui_column is-4"]/li[@class="item"]/a/@href').extract()
         for cityHot in all_hotels_in_cities:
             yield scrapy.http.Request(url = response.urljoin(cityHot),callback=self.moveCity)
-            self.city_no += 1
     
     
